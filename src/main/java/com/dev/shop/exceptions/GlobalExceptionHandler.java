@@ -49,8 +49,8 @@ public class GlobalExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(UploadImageException.class)
-    public ResponseEntity<ApiResponse<?>> handleUploadImageException(UploadImageException exception) {
+    @ExceptionHandler(ImageException.class)
+    public ResponseEntity<ApiResponse<?>> handleUploadImageException(ImageException exception) {
         return ResponseEntity
                 .internalServerError()
                 .body(

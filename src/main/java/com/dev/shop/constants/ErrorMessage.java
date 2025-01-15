@@ -7,4 +7,6 @@ public class ErrorMessage {
     public static final String CATEGORY_NOT_FOUND = "Category not found.";
     public static final String IMAGE_NOT_FOUND = "Image not found.";
     public static final String IMAGE_UPLOAD_FAILED = "Image upload failed.";
+    public static final String IMAGE_DOWNLOAD_FAILED = "Image download failed.";
+    public static final String IMAGE_UPDATE_FAILED = "Image update failed.";
 }

@@ -5,7 +5,7 @@ import com.dev.shop.domain.dtos.responses.ImageResponse;
 import com.dev.shop.domain.entities.Image;
 import com.dev.shop.domain.entities.Product;
 import com.dev.shop.exceptions.ResourceNotFoundException;
-import com.dev.shop.exceptions.UploadImageException;
+import com.dev.shop.exceptions.ImageException;
 import com.dev.shop.repositories.ImageRepository;
 import com.dev.shop.services.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,7 @@ public class ImageService implements IImageService {
 
             imageRepository.save(image);
         } catch (SQLException | IOException e) {
-            throw new RuntimeException(e);
+            throw new ImageException(ErrorMessage.IMAGE_UPDATE_FAILED);
         }
     }
 
@@ -87,7 +87,7 @@ public class ImageService implements IImageService {
 
                 imageResponses.add(imageResponse);
             } catch (SQLException | IOException e) {
-                throw new UploadImageException(ErrorMessage.IMAGE_UPLOAD_FAILED);
+                throw new ImageException(ErrorMessage.IMAGE_UPLOAD_FAILED);
             }
         }
 

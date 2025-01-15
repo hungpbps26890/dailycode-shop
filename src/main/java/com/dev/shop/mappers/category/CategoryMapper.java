@@ -1,6 +1,7 @@
 package com.dev.shop.mappers.category;
 
 import com.dev.shop.constants.ErrorMessage;
+import com.dev.shop.domain.dtos.responses.CategoryResponse;
 import com.dev.shop.domain.entities.Category;
 import com.dev.shop.domain.dtos.requests.CategoryCreateRequest;
 import com.dev.shop.domain.dtos.requests.CategoryUpdateRequest;
@@ -33,6 +34,14 @@ public class CategoryMapper implements ICategoryMapper {
         category.setName(name);
 
         return category;
+    }
+
+    @Override
+    public CategoryResponse toCategoryResponse(Category category) {
+        return CategoryResponse.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
     }
 
     private void existedByName(String name) {

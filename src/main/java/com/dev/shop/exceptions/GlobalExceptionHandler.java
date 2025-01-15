@@ -40,10 +40,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<ApiResponse<?>> handleAlreadyExistsException(AlreadyExistsException exception) {
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.CONFLICT)
                 .body(
                         ApiResponse.builder()
-                                .code(HttpStatus.BAD_REQUEST.value())
+                                .code(HttpStatus.CONFLICT.value())
                                 .message(exception.getMessage())
                                 .build()
                 );

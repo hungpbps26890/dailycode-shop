@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "${api.prefix}/products")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -40,7 +40,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping(name = "/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable("id") Long id) {
         Product product = productService.getProductById(id);
 
@@ -53,7 +53,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping(name = "/name/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<ApiResponse<ProductResponse>> getProductByName(@PathVariable("name") String name) {
         Product product = productService.getProductByName(name);
 
@@ -80,7 +80,7 @@ public class ProductController {
                 );
     }
 
-    @PutMapping(name = "/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(
             @PathVariable("id") Long id,
             @RequestBody ProductUpdateRequest request
@@ -96,7 +96,7 @@ public class ProductController {
         );
     }
 
-    @DeleteMapping(name = "/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> deleteProductById(@PathVariable("id") Long id) {
         productService.deleteProductById(id);
 
@@ -108,7 +108,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping(name = "/by-brand")
+    @GetMapping("/by-brand")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsByBrand(@RequestParam String brand) {
         List<Product> products = productService.getProductsByBrand(brand);
 
@@ -126,7 +126,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping(name = "/by-category")
+    @GetMapping("/by-category")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProductsByCategory(@RequestParam String category) {
         List<Product> products = productService.getProductsByCategoryName(category);
 
@@ -144,7 +144,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping(name = "/count/by-brand")
+    @GetMapping("/count/by-brand")
     public ResponseEntity<ApiResponse<Long>> countProductsByBrand(@RequestParam String brand) {
         Long count = productService.countProductsByBrand(brand);
 
@@ -157,7 +157,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping(name = "/count/by-category")
+    @GetMapping("/count/by-category")
     public ResponseEntity<ApiResponse<Long>> countProductsByCategory(@RequestParam String category) {
         Long count = productService.countProductsByCategoryName(category);
 

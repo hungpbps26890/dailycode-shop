@@ -4,6 +4,7 @@ import com.dev.shop.constants.ErrorMessage;
 import com.dev.shop.domain.entities.Category;
 import com.dev.shop.domain.dtos.requests.CategoryCreateRequest;
 import com.dev.shop.domain.dtos.requests.CategoryUpdateRequest;
+import com.dev.shop.exceptions.AlreadyExistsException;
 import com.dev.shop.exceptions.ResourceNotFoundException;
 import com.dev.shop.mappers.category.ICategoryMapper;
 import com.dev.shop.repositories.CategoryRepository;
@@ -22,6 +23,10 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category createCategory(CategoryCreateRequest request) {
+        if (categoryRepository.existsByName(request.getName())) {
+            throw new AlreadyExistsException(request.getName() + ErrorMessage.ALREADY_EXISTS);
+        }
+
         return categoryRepository.save(categoryMapper.toCategory(request));
     }
 
@@ -44,6 +49,10 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category updateCategory(Long id, CategoryUpdateRequest request) {
+        if (categoryRepository.existsByName(request.getName())) {
+            throw new AlreadyExistsException(request.getName() + ErrorMessage.ALREADY_EXISTS);
+        }
+
         return categoryRepository.findById(id)
                 .map(existingCategory -> categoryMapper.updateCategory(existingCategory, request))
                 .map(categoryRepository::save)

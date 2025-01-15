@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "${api.prefix}/images")
+@RequestMapping("/images")
 @RequiredArgsConstructor
 public class ImageController {
 
@@ -40,8 +40,8 @@ public class ImageController {
         );
     }
 
-    @GetMapping(name = "/{id}")
-    public ResponseEntity<ApiResponse<Resource>> downloadImage(@PathVariable("id") Long id) {
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable("id") Long id) {
         Image image = imageService.getImageById(id);
 
         ByteArrayResource resource = null;
@@ -60,14 +60,10 @@ public class ImageController {
                         HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + image.getFileName() + "\""
                 )
-                .body(ApiResponse.<Resource>builder()
-                        .code(HttpStatus.OK.value())
-                        .message("Download success.")
-                        .data(resource)
-                        .build());
+                .body(resource);
     }
 
-    @PutMapping(name = "/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> updateImage(
             @PathVariable("id") Long id,
             @RequestBody MultipartFile file
@@ -82,7 +78,7 @@ public class ImageController {
         );
     }
 
-    @DeleteMapping(name = "/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> updateImage(
             @PathVariable("id") Long id
     ) {

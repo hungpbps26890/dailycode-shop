@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "${api.prefix}/categories")
+@RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
@@ -53,7 +53,7 @@ public class CategoryController {
                 );
     }
 
-    @GetMapping(name = "/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable("id") Long id) {
         Category category = categoryService.getCategoryById(id);
 
@@ -66,8 +66,8 @@ public class CategoryController {
         );
     }
 
-    @GetMapping(name = "/name/{name}")
-    public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable("name") String name) {
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryByName(@PathVariable("name") String name) {
         Category category = categoryService.getCategoryByName(name);
 
         return ResponseEntity.ok(
@@ -79,7 +79,7 @@ public class CategoryController {
         );
     }
 
-    @DeleteMapping(name = "/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> deleteCategoryById(@PathVariable("id") Long id) {
         categoryService.deleteCategoryById(id);
 
@@ -91,7 +91,7 @@ public class CategoryController {
         );
     }
 
-    @PutMapping(name = "/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<CategoryResponse>> updateCategory(
             @PathVariable("id") Long id,
             @RequestBody CategoryUpdateRequest request

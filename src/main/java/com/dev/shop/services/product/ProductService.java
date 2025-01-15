@@ -58,6 +58,9 @@ public class ProductService implements IProductService {
 
     @Override
     public Product updateProduct(Long id, ProductUpdateRequest request) {
+        categoryRepository.findByName(request.getCategory().getName())
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND));
+
         return productRepository.findById(id)
                 .map(exsitingProduct -> productMapper.updateProduct(exsitingProduct, request))
                 .map(productRepository::save)

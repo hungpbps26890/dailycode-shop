@@ -13,6 +13,8 @@ import com.dev.shop.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class ProductMapper implements IProductMapper {
@@ -42,11 +44,7 @@ public class ProductMapper implements IProductMapper {
         product.setPrice(request.getPrice());
         product.setInventory(request.getInventory());
         product.setDescription(request.getDescription());
-
-        Category category = categoryRepository.findByName(request.getCategory().getName())
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND));
-
-        product.setCategory(category);
+        product.setCategory(request.getCategory());
 
         return product;
     }
@@ -61,10 +59,11 @@ public class ProductMapper implements IProductMapper {
                 .inventory(product.getInventory())
                 .description(product.getDescription())
                 .category(categoryMapper.toCategoryResponse(product.getCategory()))
-                .images(product.getImages()
-                        .stream()
-                        .map(imageMapper::toImageResponse)
-                        .toList()
+                .images(Optional.ofNullable(product.getImages())
+                        .map(images -> images.stream()
+                                .map(imageMapper::toImageResponse)
+                                .toList()
+                        ).orElse(null)
                 )
                 .build();
     }

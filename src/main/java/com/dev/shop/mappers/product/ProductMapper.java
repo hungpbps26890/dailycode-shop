@@ -1,11 +1,14 @@
 package com.dev.shop.mappers.product;
 
 import com.dev.shop.constants.ErrorMessage;
+import com.dev.shop.domain.dtos.responses.ProductResponse;
 import com.dev.shop.domain.entities.Category;
 import com.dev.shop.domain.entities.Product;
 import com.dev.shop.domain.dtos.requests.ProductCreateRequest;
 import com.dev.shop.domain.dtos.requests.ProductUpdateRequest;
 import com.dev.shop.exceptions.ResourceNotFoundException;
+import com.dev.shop.mappers.category.ICategoryMapper;
+import com.dev.shop.mappers.image.IImageMapper;
 import com.dev.shop.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,10 @@ import org.springframework.stereotype.Component;
 public class ProductMapper implements IProductMapper {
 
     private final CategoryRepository categoryRepository;
+
+    private final ICategoryMapper categoryMapper;
+
+    private final IImageMapper imageMapper;
 
     @Override
     public Product toProduct(ProductCreateRequest request) {
@@ -42,5 +49,23 @@ public class ProductMapper implements IProductMapper {
         product.setCategory(category);
 
         return product;
+    }
+
+    @Override
+    public ProductResponse toProductResponse(Product product) {
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .brand(product.getBrand())
+                .price(product.getPrice())
+                .inventory(product.getInventory())
+                .description(product.getDescription())
+                .category(categoryMapper.toCategoryResponse(product.getCategory()))
+                .images(product.getImages()
+                        .stream()
+                        .map(imageMapper::toImageResponse)
+                        .toList()
+                )
+                .build();
     }
 }

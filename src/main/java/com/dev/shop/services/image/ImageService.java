@@ -6,6 +6,7 @@ import com.dev.shop.domain.entities.Image;
 import com.dev.shop.domain.entities.Product;
 import com.dev.shop.exceptions.ResourceNotFoundException;
 import com.dev.shop.exceptions.ImageException;
+import com.dev.shop.mappers.image.IImageMapper;
 import com.dev.shop.repositories.ImageRepository;
 import com.dev.shop.services.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ import java.util.List;
 public class ImageService implements IImageService {
 
     private final ImageRepository imageRepository;
+
+    private final IImageMapper imageMapper;
 
     private final ProductService productService;
 
@@ -79,11 +82,7 @@ public class ImageService implements IImageService {
 
                 imageRepository.save(savedImage);
 
-                ImageResponse imageResponse = ImageResponse.builder()
-                        .id(savedImage.getId())
-                        .fileName(savedImage.getFileName())
-                        .downloadUrl(savedImage.getDownloadUrl())
-                        .build();
+                ImageResponse imageResponse = imageMapper.toImageResponse(savedImage);
 
                 imageResponses.add(imageResponse);
             } catch (SQLException | IOException e) {

@@ -1,4 +1,4 @@
-package com.dev.shop.dtos.requests;
+package com.dev.shop.domain.dtos.requests;
 
 import com.dev.shop.domain.entities.Category;
 import lombok.AllArgsConstructor;

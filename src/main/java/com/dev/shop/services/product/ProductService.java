@@ -3,8 +3,8 @@ package com.dev.shop.services.product;
 import com.dev.shop.constants.ErrorMessage;
 import com.dev.shop.domain.entities.Category;
 import com.dev.shop.domain.entities.Product;
-import com.dev.shop.dtos.requests.ProductCreateRequest;
-import com.dev.shop.dtos.requests.ProductUpdateRequest;
+import com.dev.shop.domain.dtos.requests.ProductCreateRequest;
+import com.dev.shop.domain.dtos.requests.ProductUpdateRequest;
 import com.dev.shop.exceptions.ResourceNotFoundException;
 import com.dev.shop.mappers.product.IProductMapper;
 import com.dev.shop.repositories.CategoryRepository;
@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

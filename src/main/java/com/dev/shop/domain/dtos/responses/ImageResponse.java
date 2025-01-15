@@ -1,4 +1,4 @@
-package com.dev.shop.dtos.requests;
+package com.dev.shop.domain.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryCreateRequest {
-    private String name;
+public class ImageResponse {
+    private Long id;
+    private String fileName;
+    private String downloadUrl;
 }

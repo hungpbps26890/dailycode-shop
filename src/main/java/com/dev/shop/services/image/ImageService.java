@@ -5,6 +5,7 @@ import com.dev.shop.domain.dtos.responses.ImageResponse;
 import com.dev.shop.domain.entities.Image;
 import com.dev.shop.domain.entities.Product;
 import com.dev.shop.exceptions.ResourceNotFoundException;
+import com.dev.shop.exceptions.UploadImageException;
 import com.dev.shop.repositories.ImageRepository;
 import com.dev.shop.services.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class ImageService implements IImageService {
 
                 imageResponses.add(imageResponse);
             } catch (SQLException | IOException e) {
-                throw new RuntimeException(e);
+                throw new UploadImageException(ErrorMessage.IMAGE_UPLOAD_FAILED);
             }
         }
 

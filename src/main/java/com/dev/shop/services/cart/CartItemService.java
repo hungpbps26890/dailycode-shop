@@ -37,7 +37,7 @@ public class CartItemService implements ICartItemService {
 
     @Transactional
     @Override
-    public void addCartItemToCart(Long cartId, Long productId, Integer quantity) {
+    public Cart addCartItemToCart(Long cartId, Long productId, Integer quantity) {
         // 1. Get cart
         Cart cart = cartService.getCart(cartId);
 
@@ -68,33 +68,33 @@ public class CartItemService implements ICartItemService {
 
         cartItemRepository.save(cartItem);
 
-        cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 
     @Transactional
     @Override
-    public void updateCartItemQuantity(Long cartId, Long productId, Integer quantity) {
+    public Cart updateCartItemQuantity(Long cartId, Long productId, Integer quantity) {
         Cart cart = cartService.getCart(cartId);
 
         CartItem cartItem = getCartItem(cartId, productId);
 
         if (quantity == 0) {
-            deleteCartItemFromCart(cartId, productId);
-        } else {
-            cartItem.setQuantity(quantity);
-            cartItem.setTotalPrice();
-
-            cart.updateTotal();
-
-            cartItemRepository.save(cartItem);
-
-            cartRepository.save(cart);
+            return deleteCartItemFromCart(cartId, productId);
         }
+
+        cartItem.setQuantity(quantity);
+        cartItem.setTotalPrice();
+
+        cart.updateTotal();
+
+        cartItemRepository.save(cartItem);
+
+        return cartRepository.save(cart);
     }
 
     @Transactional
     @Override
-    public void deleteCartItemFromCart(Long cartId, Long productId) {
+    public Cart deleteCartItemFromCart(Long cartId, Long productId) {
         Cart cart = cartService.getCart(cartId);
 
         CartItem cartItem = getCartItem(cartId, productId);
@@ -103,6 +103,6 @@ public class CartItemService implements ICartItemService {
 
         cartItemRepository.delete(cartItem);
 
-        cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 }

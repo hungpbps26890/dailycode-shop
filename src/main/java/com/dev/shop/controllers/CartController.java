@@ -17,6 +17,19 @@ public class CartController {
 
     private final ICartService cartService;
 
+    @PostMapping
+    public ResponseEntity<ApiResponse<Cart>> createCart() {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        ApiResponse.<Cart>builder()
+                                .code(HttpStatus.CREATED.value())
+                                .message("Create cart success")
+                                .data(cartService.createCart())
+                                .build()
+                );
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Cart>> getCart(@PathVariable("id") Long id) {
         return ResponseEntity.ok(

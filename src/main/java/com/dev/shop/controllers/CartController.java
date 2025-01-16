@@ -1,7 +1,9 @@
 package com.dev.shop.controllers;
 
 import com.dev.shop.domain.dtos.responses.ApiResponse;
+import com.dev.shop.domain.dtos.responses.CartResponse;
 import com.dev.shop.domain.entities.Cart;
+import com.dev.shop.mappers.cart.ICartMapper;
 import com.dev.shop.services.cart.ICartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,32 +13,23 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping(name = "/carts")
+@RequestMapping("/carts")
 @RequiredArgsConstructor
 public class CartController {
 
     private final ICartService cartService;
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<Cart>> createCart() {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(
-                        ApiResponse.<Cart>builder()
-                                .code(HttpStatus.CREATED.value())
-                                .message("Create cart success")
-                                .data(cartService.createCart())
-                                .build()
-                );
-    }
+    private final ICartMapper cartMapper;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Cart>> getCart(@PathVariable("id") Long id) {
+    public ResponseEntity<ApiResponse<CartResponse>> getCart(@PathVariable("id") Long id) {
+        Cart cart = cartService.getCart(id);
+
         return ResponseEntity.ok(
-                ApiResponse.<Cart>builder()
+                ApiResponse.<CartResponse>builder()
                         .code(HttpStatus.OK.value())
                         .message("Get cart success.")
-                        .data(cartService.getCart(id))
+                        .data(cartMapper.toCartResponse(cart))
                         .build()
         );
     }

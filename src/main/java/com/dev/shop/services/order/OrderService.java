@@ -1,10 +1,7 @@
 package com.dev.shop.services.order;
 
 import com.dev.shop.constants.ErrorMessage;
-import com.dev.shop.domain.entities.Cart;
-import com.dev.shop.domain.entities.Order;
-import com.dev.shop.domain.entities.OrderItem;
-import com.dev.shop.domain.entities.Product;
+import com.dev.shop.domain.entities.*;
 import com.dev.shop.domain.enums.OrderStatus;
 import com.dev.shop.exceptions.InventoryException;
 import com.dev.shop.exceptions.ResourceNotFoundException;
@@ -12,6 +9,7 @@ import com.dev.shop.repositories.CartRepository;
 import com.dev.shop.repositories.OrderRepository;
 import com.dev.shop.repositories.ProductRepository;
 import com.dev.shop.services.cart.ICartService;
+import com.dev.shop.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +31,8 @@ public class OrderService implements IOrderService {
     private final ICartService cartService;
 
     private final ProductRepository productRepository;
+
+    private final UserService userService;
 
     @Transactional
     @Override
@@ -62,7 +62,9 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<Order> getOrderByUserId(Long userId) {
-        return orderRepository.findByUserId(userId);
+        User user = userService.getUserById(userId);
+
+        return orderRepository.findByUserId(user.getId());
     }
 
     private Order createOrder(Cart cart) {

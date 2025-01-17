@@ -17,7 +17,7 @@ public class UserMapper implements IUserMapper {
                 .id(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
-                .lastname(user.getLastname())
+                .lastName(user.getLastName())
                 .build();
     }
 
@@ -27,14 +27,14 @@ public class UserMapper implements IUserMapper {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .firstName(request.getFirstName())
-                .lastname(request.getLastname())
+                .lastName(request.getLastName())
                 .build();
     }
 
     @Override
     public User updateUser(User user, UserUpdateRequest request) {
         user.setFirstName(request.getFirstName());
-        user.setLastname(request.getLastname());
+        user.setLastName(request.getLastName());
 
         return user;
     }

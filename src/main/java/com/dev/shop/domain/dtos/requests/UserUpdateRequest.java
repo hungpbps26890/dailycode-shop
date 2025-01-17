@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserUpdateRequest {
     private String firstName;
-    private String lastname;
+    private String lastName;
 }

@@ -34,6 +34,19 @@ public class CartController {
         );
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<CartResponse>> getCartByUser(@PathVariable("userId") Long userId) {
+        Cart cart = cartService.getCartByUserId(userId);
+
+        return ResponseEntity.ok(
+                ApiResponse.<CartResponse>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("Get cart success.")
+                        .data(cartMapper.toCartResponse(cart))
+                        .build()
+        );
+    }
+
     @GetMapping("/{id}/total")
     public ResponseEntity<ApiResponse<BigDecimal>> getTotal(@PathVariable("id") Long id) {
         return ResponseEntity.ok(

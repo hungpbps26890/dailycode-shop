@@ -51,7 +51,7 @@ public class OrderService implements IOrderService {
 
         cartService.clearCart(cart.getId());
 
-        return null;
+        return savedOrder;
     }
 
     @Override
@@ -76,6 +76,10 @@ public class OrderService implements IOrderService {
     }
 
     private Set<OrderItem> createOrderItems(Order order, Cart cart) {
+        if (cart.getCartItems().isEmpty()) {
+            throw new InventoryException(ErrorMessage.CART_EMPTY);
+        }
+
         return cart.getCartItems()
                 .stream()
                 .map(item -> {

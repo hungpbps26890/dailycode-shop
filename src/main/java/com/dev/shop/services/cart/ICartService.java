@@ -11,4 +11,6 @@ public interface ICartService {
     void clearCart(Long id);
 
     BigDecimal getTotal(Long id);
+
+    Cart getCartByUserId(Long userId);
 }

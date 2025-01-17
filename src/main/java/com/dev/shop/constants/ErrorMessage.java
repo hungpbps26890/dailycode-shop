@@ -11,4 +11,6 @@ public class ErrorMessage {
     public static final String IMAGE_UPDATE_FAILED = "Image update failed.";
     public static final String CART_NOT_FOUND = "Cart not found.";
     public static final String CART_ITEM_NOT_FOUND = "Cart item not found.";
+    public static final String ORDER_NOT_FOUND = "Order not found.";
+    public static final String INVENTORY_OUT_OF_STOCK = " is out of stock";
 }

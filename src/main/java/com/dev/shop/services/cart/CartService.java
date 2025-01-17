@@ -33,6 +33,7 @@ public class CartService implements ICartService {
         cartItemRepository.deleteAllByCartId(cart.getId());
 
         cart.getCartItems().clear();
+        cart.updateTotal();
 
         cartRepository.save(cart);
     }
@@ -42,5 +43,11 @@ public class CartService implements ICartService {
         Cart cart = getCart(id);
 
         return cart.getTotal();
+    }
+
+    @Override
+    public Cart getCartByUserId(Long userId) {
+        return cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.CART_NOT_FOUND));
     }
 }

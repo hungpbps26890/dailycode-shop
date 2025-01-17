@@ -60,4 +60,14 @@ public class GlobalExceptionHandler {
                                 .build()
                 );
     }
+
+    @ExceptionHandler(InventoryException.class)
+    public ResponseEntity<ApiResponse<?>> handleInventoryException(InventoryException exception) {
+        return ResponseEntity.badRequest()
+                .body(ApiResponse.builder()
+                        .code(HttpStatus.BAD_REQUEST.value())
+                        .message(exception.getMessage())
+                        .build()
+                );
+    }
 }

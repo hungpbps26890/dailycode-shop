@@ -9,6 +9,7 @@ import com.dev.shop.exceptions.ResourceNotFoundException;
 import com.dev.shop.mappers.category.ICategoryMapper;
 import com.dev.shop.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class CategoryService implements ICategoryService {
 
     private final ICategoryMapper categoryMapper;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public Category createCategory(CategoryCreateRequest request) {
         if (categoryRepository.existsByName(request.getName())) {
@@ -47,6 +49,7 @@ public class CategoryService implements ICategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public Category updateCategory(Long id, CategoryUpdateRequest request) {
         if (categoryRepository.existsByName(request.getName())) {
@@ -59,6 +62,7 @@ public class CategoryService implements ICategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.CATEGORY_NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public void deleteCategoryById(Long id) {
         categoryRepository.findById(id)

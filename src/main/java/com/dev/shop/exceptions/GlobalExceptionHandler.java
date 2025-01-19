@@ -5,6 +5,7 @@ import com.dev.shop.domain.dtos.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -61,13 +62,37 @@ public class GlobalExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(InventoryException.class)
-    public ResponseEntity<ApiResponse<?>> handleInventoryException(InventoryException exception) {
+    @ExceptionHandler(OrderException.class)
+    public ResponseEntity<ApiResponse<?>> handleInventoryException(OrderException exception) {
         return ResponseEntity.badRequest()
                 .body(ApiResponse.builder()
                         .code(HttpStatus.BAD_REQUEST.value())
                         .message(exception.getMessage())
                         .build()
+                );
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ApiResponse<?>> handleAuthenticationException(AuthException exception) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(
+                        ApiResponse.builder()
+                                .code(HttpStatus.UNAUTHORIZED.value())
+                                .message(exception.getMessage())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiResponse<?>> handleAuthorizationDeniedException(AuthorizationDeniedException exception) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(
+                        ApiResponse.builder()
+                                .code(HttpStatus.FORBIDDEN.value())
+                                .message(ErrorMessage.UNAUTHORIZED)
+                                .build()
                 );
     }
 }

@@ -10,6 +10,7 @@ import com.dev.shop.mappers.product.IProductMapper;
 import com.dev.shop.repositories.CategoryRepository;
 import com.dev.shop.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ProductService implements IProductService {
 
     private final IProductMapper productMapper;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public Product createProduct(ProductCreateRequest request) {
         String categoryName = request.getCategory().getName();
@@ -56,6 +58,7 @@ public class ProductService implements IProductService {
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public Product updateProduct(Long id, ProductUpdateRequest request) {
         categoryRepository.findByName(request.getCategory().getName())
@@ -67,6 +70,7 @@ public class ProductService implements IProductService {
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public void deleteProductById(Long id) {
         productRepository.findById(id)

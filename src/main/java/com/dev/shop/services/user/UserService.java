@@ -4,14 +4,23 @@ import com.dev.shop.constants.ErrorMessage;
 import com.dev.shop.domain.dtos.requests.UserCreateRequest;
 import com.dev.shop.domain.dtos.requests.UserUpdateRequest;
 import com.dev.shop.domain.entities.Cart;
+import com.dev.shop.domain.entities.Role;
 import com.dev.shop.domain.entities.User;
+import com.dev.shop.domain.enums.RoleEnum;
 import com.dev.shop.exceptions.AlreadyExistsException;
 import com.dev.shop.exceptions.ResourceNotFoundException;
 import com.dev.shop.mappers.user.IUserMapper;
 import com.dev.shop.repositories.CartRepository;
+import com.dev.shop.repositories.RoleRepository;
 import com.dev.shop.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +32,26 @@ public class UserService implements IUserService {
 
     private final CartRepository cartRepository;
 
+    private final RoleRepository roleRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    @Transactional
     @Override
     public User createUser(UserCreateRequest request) {
         if (userRepository.existsByEmail(request.getEmail()))
             throw new AlreadyExistsException(request.getEmail() + ErrorMessage.ALREADY_EXISTS);
 
         User userToCreate = userMapper.toUser(request);
+
+        userToCreate.setPassword(passwordEncoder.encode(userToCreate.getPassword()));
+
+        Role roleUser = roleRepository.findByName(RoleEnum.ROLE_USER.name())
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessage.ROLE_NOT_FOUND));
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleUser);
+        userToCreate.setRoles(roles);
 
         User savedUser = userRepository.save(userToCreate);
 

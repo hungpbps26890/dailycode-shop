@@ -14,5 +14,9 @@ public class ErrorMessage {
     public static final String ORDER_NOT_FOUND = "Order not found.";
     public static final String INVENTORY_OUT_OF_STOCK = " is out of stock";
     public static final String USER_NOT_FOUND = "User not found.";
+    public static final String ROLE_NOT_FOUND = "Role not found.";
     public static final String CART_EMPTY = "Cart is empty.";
+    public static final String UNAUTHENTICATED = "Unauthenticated, please try to login again.";
+    public static final String UNAUTHORIZED = "You do not have permission.";
+    public static final String LOGIN_ERROR = "Invalid email or password.";
 }

@@ -3,7 +3,7 @@ package com.dev.shop.services.order;
 import com.dev.shop.constants.ErrorMessage;
 import com.dev.shop.domain.entities.*;
 import com.dev.shop.domain.enums.OrderStatus;
-import com.dev.shop.exceptions.InventoryException;
+import com.dev.shop.exceptions.OrderException;
 import com.dev.shop.exceptions.ResourceNotFoundException;
 import com.dev.shop.repositories.CartRepository;
 import com.dev.shop.repositories.OrderRepository;
@@ -77,7 +77,7 @@ public class OrderService implements IOrderService {
 
     private Set<OrderItem> createOrderItems(Order order, Cart cart) {
         if (cart.getCartItems().isEmpty()) {
-            throw new InventoryException(ErrorMessage.CART_EMPTY);
+            throw new OrderException(ErrorMessage.CART_EMPTY);
         }
 
         return cart.getCartItems()
@@ -86,7 +86,7 @@ public class OrderService implements IOrderService {
                     Product product = item.getProduct();
 
                     if (product.getInventory() < item.getQuantity())
-                        throw new InventoryException(product.getName() + ErrorMessage.INVENTORY_OUT_OF_STOCK);
+                        throw new OrderException(product.getName() + ErrorMessage.INVENTORY_OUT_OF_STOCK);
 
                     product.setInventory(product.getInventory() - item.getQuantity());
                     Product updatedProduct = productRepository.save(product);
